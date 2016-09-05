@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 def to_delay_dict(record):
     delay_dict = {}
     delay_dict["alert_id"] = record["alert_id"]

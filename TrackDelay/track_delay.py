@@ -1,8 +1,10 @@
+#!/usr/bin/env python
 import alert_scanner
 import delay_dict
 import data_access
 import logging
 import datetime
+
 
 class TrackDelay(object):
     def run(self):
@@ -16,6 +18,7 @@ class TrackDelay(object):
         for alert in disabled_train_alerts:
             record = delay_dict.to_delay_dict(alert)
             dal.add_delay_record(record)
+
 
 td = TrackDelay()
 td.run()
