@@ -1,4 +1,5 @@
 import sqlite3
+import logging
 
 
 class DataAccess(object):
@@ -8,18 +9,25 @@ class DataAccess(object):
         super(DataAccess, self).__init__()
 
     def add_delay_record(self, record_dict):
-        self.execute_command("INSERT INTO TRAIN_DELAY \
-                              (ALERT_ID, SEVERITY, LINE, BRANCH, START_TIME, END_TIME, HEADER_TEXT, DESCR_TEXT) VALUES\
-                                (?, ?, ?, ?, ?, ?, ?, ?)", (
-            record_dict["alert_id"], record_dict["severity"], record_dict["line"], record_dict["branch"],
-            record_dict["start_time"], record_dict["end_time"], record_dict["header_text"], record_dict["descr_text"]))
-
-    def table_exists(self):
-        cursor = self.execute_command("SELECT * FROM sqlite_master WHERE type='table' AND name='TRAIN_DELAY'")
-        return len(cursor) == 1
+        existing_record = self.execute_command("SELECT ALERT_ID FROM TRAIN_DELAY WHERE ALERT_ID = ?",
+                                               record_dict["alert_id"])
+        if existing_record:
+            self.execute_command(
+                "UPDATE TRAIN_DELAY SET SEVERITY = ?, START_TIME = ?, END_TIME = ?, HEADER_TEXT = ? WHERE ALERT_ID = ?",
+                (
+                    record_dict["severity"], record_dict["start_time"], record_dict["end_time"],
+                    record_dict["header_text"], record_dict["alert_id"]))
+        else:
+            logging.debug("Inserting record: " + record_dict)
+            self.execute_command("INSERT INTO TRAIN_DELAY \
+                                  (ALERT_ID, SEVERITY, LINE, BRANCH, START_TIME, END_TIME, HEADER_TEXT) VALUES\
+                                    (?, ?, ?, ?, ?, ?, ?, ?)", (
+                record_dict["alert_id"], record_dict["severity"], record_dict["line"], record_dict["branch"],
+                record_dict["start_time"], record_dict["end_time"], record_dict["header_text"]))
 
     def create_table(self):
-        self.execute_command('''CREATE TABLE TRAIN_DELAY
+        logging.debug("Creating table")
+        self.execute_command('''CREATE TABLE IF NOT EXISTS TRAIN_DELAY
                             (
                               ID INT PRIMARY KEY NOT NULL,
                               ALERT_ID INT NOT NULL,
@@ -28,13 +36,18 @@ class DataAccess(object):
                               BRANCH TEXT NULL,
                               START_TIME INT NOT NULL,
                               END_TIME INT NULL,
-                              HEADER_TEXT TEXT NULL,
-                              DESCR_TEXT TEXT NULL
-                            )''')
+                              HEADER_TEXT TEXT NULL
+                            );''')
+
+    def table_exists(self):
+        return bool(self.execute_command("SELECT name FROM sqlite_master WHERE type='table' AND name='TRAIN_DELAY'"))
+
 
     @staticmethod
     def execute_command(cmd, params=()):
+        logging.debug("Attempting to execute SQL: " + cmd + " PARAMETERS: " + str(params))
         conn = sqlite3.connect("data.db")
-        output = conn.execute(cmd, params)
+        output = conn.execute(cmd, params).fetchall()
+        conn.commit()
         conn.close()
         return output
