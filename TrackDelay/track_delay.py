@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 import alert_scanner
 import delay_dict
 import data_access
@@ -11,6 +12,7 @@ class TrackDelay(object):
     def run(self):
         logging.basicConfig(filename="log.log", level=logging.DEBUG)
         logging.info("Starting run at:" + datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y"))
+        print("Starting run at:" + datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y"))
         self.process_delays()
 
     def process_delays(self):
@@ -20,7 +22,7 @@ class TrackDelay(object):
             record = delay_dict.to_delay_dict(alert)
             dal.add_delay_record(record)
 
+td = TrackDelay()
 while True:
-    td = TrackDelay()
     td.run()
     time.sleep(600)
