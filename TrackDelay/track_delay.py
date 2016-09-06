@@ -4,6 +4,7 @@ import delay_dict
 import data_access
 import logging
 import datetime
+import time
 
 
 class TrackDelay(object):
@@ -19,6 +20,7 @@ class TrackDelay(object):
             record = delay_dict.to_delay_dict(alert)
             dal.add_delay_record(record)
 
-
-td = TrackDelay()
-td.run()
+while True:
+    td = TrackDelay()
+    td.run()
+    time.sleep(600)
