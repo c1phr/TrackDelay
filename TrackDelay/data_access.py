@@ -48,7 +48,7 @@ class DataAccess(object):
     @staticmethod
     def execute_command(cmd, params=()):
         logging.debug("Attempting to execute SQL: " + cmd + " PARAMETERS: " + str(params))
-        conn = sqlite3.connect("data.db")
+        conn = sqlite3.connect("../data.db")
         output = conn.execute(cmd, params).fetchall()
         conn.commit()
         conn.close()
