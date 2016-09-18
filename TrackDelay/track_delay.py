@@ -19,7 +19,7 @@ class TrackDelay(object):
         dal = data_access.DataAccess()
         retry_count = 3
         while retry_count > 0:
-            disabled_train_alerts = alert_scanner.AlertScanner.get_alerts()
+            disabled_train_alerts = alert_scanner.AlertScanner.get_alerts(None)
             if disabled_train_alerts is not None:
                 retry_count = 0 # Stop retrying
                 for alert in disabled_train_alerts:
