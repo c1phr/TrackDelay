@@ -1,0 +1,5 @@
+cron:
+- description: Get Delay Data
+  url: /getData
+  schedule: every 10 minutes from 4:30 to 1:00
+  timezone: America/New_York

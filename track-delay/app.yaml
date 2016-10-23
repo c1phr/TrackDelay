@@ -2,6 +2,7 @@ application: track-delay
 runtime: python27
 api_version: 1
 threadsafe: true
+version: alpha1
 
 handlers:
 - url: /favicon\.ico
@@ -10,6 +11,7 @@ handlers:
 
 - url: /getData
   script: main.app
+  login: admin
 
 libraries:
 - name: webapp2
