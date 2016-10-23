@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 from __future__ import print_function
-import api_key
-import urllib2
+
 import json
+import urllib2
+
+import api_key
 
 
 class AlertScanner(object):

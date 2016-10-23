@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 from __future__ import print_function
 
+import datetime
+import logging
+import time
 from urllib2 import URLError
 
-import alert_scanner
 import DelayModel
+import alert_scanner
 import appengine_data_access
-import logging
-import datetime
-import time
 
 
 class TrackDelay(object):
