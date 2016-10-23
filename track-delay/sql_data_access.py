@@ -3,11 +3,11 @@ import sqlite3
 import logging
 
 
-class DataAccess(object):
+class SqlDataAccess(object):
     def __init__(self):
         if not self.table_exists():
             self.create_table()
-        super(DataAccess, self).__init__()
+        super(SqlDataAccess, self).__init__()
 
     def add_delay_record(self, record_dict):
         existing_record = self.execute_command("SELECT ALERT_ID FROM TRAIN_DELAY WHERE ALERT_ID = ?",

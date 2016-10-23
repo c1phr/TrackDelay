@@ -91,3 +91,5 @@ ENV/
 
 api_key.txt
 *.db
+
+lib/

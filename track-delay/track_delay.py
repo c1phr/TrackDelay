@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 from __future__ import print_function
+
+from urllib2 import URLError
+
 import alert_scanner
-import delay_dict
-import data_access
+import DelayModel
+import appengine_data_access
 import logging
 import datetime
 import time
-from requests import exceptions
 
 
 class TrackDelay(object):
@@ -18,27 +20,30 @@ class TrackDelay(object):
 
     def process_delays(self):
         disabled_train_alerts = None
-        dal = data_access.DataAccess()
+        dal = appengine_data_access.AppEngineDataAccess()
         retry_count = 3
         while retry_count > 0:
             try:
                 disabled_train_alerts = alert_scanner.AlertScanner.get_alerts(None)
-            except exceptions.ConnectionError:
+            except URLError:
                 retry_count -= 1
                 logging.info("Retrying, connection error")
 
             if disabled_train_alerts is not None:
                 retry_count = 0  # Stop retrying
+                records = []
                 for alert in disabled_train_alerts:
-                    record = delay_dict.to_delay_dict(alert)
-                    dal.add_delay_record(record)
+                    record = DelayModel.to_delay_object(alert)
+                    records.append(record)
+                dal.add_all_records(records)
             else:
                 retry_count -= 1
                 logging.info("Retrying, disabled_train_alerts is empty")
         if retry_count == 0:
             logging.info("Error, retries failed. Sleeping until next run")
 
-td = TrackDelay()
-while True:
-    td.run()
-    time.sleep(600)
+if __name__ == "__main__":
+    td = TrackDelay()
+    while True:
+        td.run()
+        time.sleep(600)
