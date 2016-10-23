@@ -6,6 +6,8 @@ notifications:
 branches:
   only:
     - master
+script:
+  - return 0
 deploy:
   provider: gae
   keyfile: travis_api_key.json
