@@ -11,6 +11,9 @@ handlers:
   script: main.app
   login: admin
 
+- url: /merge
+  script: main.app
+
 libraries:
 - name: webapp2
   version: "2.5.2"

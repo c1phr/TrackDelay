@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sqlite3
 import logging
+import json
 
 
 class SqlDataAccess(object):
@@ -43,6 +44,15 @@ class SqlDataAccess(object):
 
     def table_exists(self):
         return bool(self.execute_command("SELECT name FROM sqlite_master WHERE type='table' AND name='TRAIN_DELAY'"))
+
+    def get_all_rows_json(self):
+        data = self.execute_command("SELECT ALERT_ID, SEVERITY, LINE, BRANCH, START_TIME, END_TIME, HEADER_TEXT, CAUSE from TRAIN_DELAY")
+        data_dict_arr = []
+        for record in data:
+            data_dict = {"alert_id": record[0], "severity": record[1], "line": record[2], "branch": record[3],
+                         "start_time": record[4], "end_time": record[5], "header_text": record[6], "cause": record[7]}
+            data_dict_arr.append(data_dict)
+        return json.dumps(data_dict_arr)
 
 
     @staticmethod
