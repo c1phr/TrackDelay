@@ -28,17 +28,17 @@ class SqlDataAccess(object):
 
     def create_table(self):
         logging.debug("Creating table")
-        self.execute_command('''CREATE TABLE IF NOT EXISTS TRAIN_DELAY
+        self.execute_command('''CREATE TABLE delay
                             (
-                              ID INTEGER PRIMARY KEY,
-                              ALERT_ID INTEGER NOT NULL,
-                              SEVERITY TEXT NOT NULL,
-                              LINE TEXT NOT NULL,
-                              BRANCH TEXT NULL,
-                              START_TIME INTEGER NOT NULL,
-                              END_TIME INTEGER NULL,
-                              HEADER_TEXT TEXT NULL,
-                              CAUSE TEXT NULL
+                              id INTEGER PRIMARY KEY,
+                              alert_id INTEGER NOT NULL,
+                              severity TEXT NOT NULL,
+                              line TEXT NOT NULL,
+                              branch TEXT NULL,
+                              start_time INTEGER NOT NULL,
+                              end_time INTEGER NULL,
+                              header_text TEXT NULL,
+                              cause TEXT NULL
                             );''')
 
     def table_exists(self):

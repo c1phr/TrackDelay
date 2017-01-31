@@ -1,11 +1,14 @@
-from google.appengine.ext import ndb
+import peewee
 
 
-class TrainDelay(ndb.Model):
-    severity = ndb.TextProperty()
-    line = ndb.TextProperty()
-    branch = ndb.TextProperty()
-    start_time = ndb.TextProperty()
-    end_time = ndb.TextProperty()
-    header_text = ndb.TextProperty()
-    cause = ndb.TextProperty()
+class TrainDelay(peewee.Model):
+    severity = peewee.TextField()
+    line = peewee.TextField()
+    branch = peewee.TextField()
+    start_time = peewee.TextField()
+    end_time = peewee.TextField()
+    header_text = peewee.TextField()
+    cause = peewee.TextField()
+
+    class Meta:
+        database = 

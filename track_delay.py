@@ -6,9 +6,9 @@ import logging
 import time
 from urllib2 import URLError
 
-import DelayModel
 import alert_scanner
-import appengine_data_access
+from data_access import appengine_data_access
+from data_models import DelayModel
 
 
 class TrackDelay(object):
