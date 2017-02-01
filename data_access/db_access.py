@@ -1,12 +1,11 @@
-import pymysql.cursors
+from pymongo import MongoClient
 
-def getConn():
-    return pymysql.connect(
-    host='localhost',
-    user='delayuser',
-    db='track_delay',
-    charset='utf8mb4',
-    cursorclass=pymysql.cursors.DictCursor
-)
 
-def saveDelay(delay):
+class MongoDbClient:
+    def __init__(self):
+        self.client = MongoClient('127.0.0.1',  27017)
+
+    def add_records(self, records):
+        collection = self.client.track_delay.delays
+        for rec in records:
+            collection.update({'_id': rec['_id']}, rec, upsert=True)

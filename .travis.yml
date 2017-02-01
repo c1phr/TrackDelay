@@ -8,10 +8,3 @@ branches:
     - master
 script:
   - return 0
-deploy:
-  provider: gae
-  keyfile: travis_api_key.json
-  project: track-delay
-before_install:
-- openssl aes-256-cbc -K $encrypted_174fbb70e193_key -iv $encrypted_174fbb70e193_iv
-  -in travis_api_key.json.enc -out travis_api_key.json -d

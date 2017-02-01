@@ -5,9 +5,9 @@ import datetime
 import logging
 import time
 from urllib2 import URLError
+from data_access import db_access
 
 import alert_scanner
-from data_access import appengine_data_access
 from data_models import DelayModel
 
 
@@ -20,7 +20,7 @@ class TrackDelay(object):
 
     def process_delays(self):
         disabled_train_alerts = None
-        dal = appengine_data_access.AppEngineDataAccess()
+        dal = db_access.MongoDbClient()
         retry_count = 3
         while retry_count > 0:
             try:
@@ -33,9 +33,9 @@ class TrackDelay(object):
                 retry_count = 0  # Stop retrying
                 records = []
                 for alert in disabled_train_alerts:
-                    record = DelayModel.to_delay_object(alert)
+                    record = DelayModel.to_delay_dict(alert)
                     records.append(record)
-                dal.add_all_records(records)
+                dal.add_records(records)
             else:
                 retry_count -= 1
                 logging.info("Retrying, disabled_train_alerts is empty")
