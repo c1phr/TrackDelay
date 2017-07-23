@@ -12,7 +12,7 @@ deploy:
   provider: lambda
   function_name: TrackDelayPoll
   role: arn:aws:iam::856841379672:role/service-role/TrackDelayLambda
-  handler_name: track_delay
+  handler_name: start_handler
   runtime: python2.7
   memory_size: 128
   access_key_id: AKIAI5YEPJX5OQ6DA7PQ
