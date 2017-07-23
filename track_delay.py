@@ -3,9 +3,8 @@ from __future__ import print_function
 
 import datetime
 import logging
-import time
 from urllib2 import URLError
-from data_access import db_access
+from data_access import dynamo_data_access
 
 import alert_scanner
 from data_models import DelayModel
@@ -20,7 +19,7 @@ class TrackDelay(object):
 
     def process_delays(self):
         disabled_train_alerts = None
-        dal = db_access.MongoDbClient()
+        dal = dynamo_data_access.DynamoDataAccess("track_delay")
         retry_count = 3
         while retry_count > 0:
             try:
@@ -35,7 +34,7 @@ class TrackDelay(object):
                 for alert in disabled_train_alerts:
                     record = DelayModel.to_delay_dict(alert)
                     records.append(record)
-                dal.add_records(records)
+                    dal.add_delay_record(record)
             else:
                 retry_count -= 1
                 logging.info("Retrying, disabled_train_alerts is empty")
@@ -44,6 +43,8 @@ class TrackDelay(object):
 
 if __name__ == "__main__":
     td = TrackDelay()
-    while True:
-        td.run()
-        time.sleep(600)
+    td.run()
+
+def lambda_handler(event, context):
+    td = TrackDelay()
+    td.run()

@@ -4,7 +4,7 @@
 def to_delay_dict(record):
     line_components = record["affected_services"]["services"][0]["route_id"].split('-')
     delay_dict = {}
-    delay_dict["_id"] = record["alert_id"]
+    delay_dict["alert_id"] = record["alert_id"]
     delay_dict["severity"] = record["severity"]
     delay_dict["line"] = line_components[0]
     delay_dict["branch"] = line_components[1] if len(line_components) > 1 else None

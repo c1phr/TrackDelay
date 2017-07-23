@@ -1,3 +1,4 @@
+import os
+
 def get_key():
-    key_file = open("api_key.txt", "r")
-    return key_file.read().rstrip()
+    return os.environ["mbta_api_key"]

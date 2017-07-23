@@ -8,3 +8,13 @@ branches:
     - master
 script:
   - return 0
+deploy:
+  provider: lambda
+  function_name: TrackDelayPoll
+  role: arn:aws:iam::856841379672:role/service-role/TrackDelayLambda
+  handler_name: track_delay
+  runtime: python2.7
+  memory_size: 128
+  access_key_id: AKIAI5YEPJX5OQ6DA7PQ
+  secret_access_key:
+    secure: htwuoI6UtL8kPA2F5s0YPfKHmlvy54utAJaVYCXcY72g7Ja+AMcnkdVD2vxTOkGNsPDgIVpBPtgKkPXZQCUeZoRTvp2FmiW8iRJc13mi+CxKKZcHgJRcpgZNnk5lMYH1t59Fi6wzUqfzKyANrYJrE3kYFaFoRcTm0oY7Oj50JcQW4W///WMAzuGWfKoDiptNsGLRzfoTInyaXlDQR0WreNb1AdZTK+7Qjr5c1gn/1HWmn+vPuNGxnMM+V3TPE5W2/lHzq0HOhCXh+xaObS3i4b0I1IAeQ1O/+cKxASd9LGwTzdWVClb67DmGreWRbkw0Kw4+uBowBoz/pSfybCsS8SPwcW4phAlf6LNtilXV7/JdV7VTqSTy0L+CEYhcgHTxkvn9PCyohz07lwzL1qyo/djTuFKIl3/Bg9C9swqTDpPcGmFEQz7xCr6a1E/6iFc8b4MurQzzsPfHvVvjfGjjTk3GFYks1nc0alr5ZAKKe5Mh11o/LIGM5F3Ftyiaof9iLz7kW8wiXw8SlbXwUBu3/Jiue4fMZ9DbjHAtA8qwPRzoIdR1baOZSYuF0ZDN/YM4YRXyxURzttjVX8Iv9q7Gz6XlIfO8jpXY5lkwPbbBfMQVKD0CXBkqb+9wNK2juuNYGsMZXmKMJUv8d0F7vdBCTJMJQinm8v2SYg8kWsIzXfk=
