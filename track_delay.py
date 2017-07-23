@@ -44,7 +44,3 @@ class TrackDelay(object):
 if __name__ == "__main__":
     td = TrackDelay()
     td.run()
-
-def lambda_handler(event, context):
-    td = TrackDelay()
-    td.run()
