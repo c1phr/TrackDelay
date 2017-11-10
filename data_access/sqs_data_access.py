@@ -11,7 +11,7 @@ def sendMessage(message):
         MessageAttributes={
             'alert_id': {
                 'DataType': 'String',
-                'StringValue': str(record_dict["alert_id"])
+                'StringValue': str(message["alert_id"])
                 }
         },
         MessageBody=json.dumps(message)
