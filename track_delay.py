@@ -4,7 +4,7 @@ from __future__ import print_function
 import datetime
 import logging
 from urllib2 import URLError
-from data_access import dynamo_data_access
+from data_access import dynamo_data_access, sqs_data_access
 
 import alert_scanner
 from data_models import DelayModel
@@ -35,6 +35,10 @@ class TrackDelay(object):
                     record = DelayModel.to_delay_dict(alert)
                     records.append(record)
                     dal.add_delay_record(record)
+                    try:
+                        sqs_data_access.sendMessage(record)
+                    except Exception as error: # Log out error for now
+                        print(error)
             else:
                 retry_count -= 1
                 logging.info("Retrying, disabled_train_alerts is empty")
